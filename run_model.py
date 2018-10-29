@@ -80,5 +80,3 @@ history = model.fit_generator(train_generator,
                                   callbacks = callbacks)
 
 model.save(output_path + '/' + model_name +  '_final_result.hdf5')
-:w
-
