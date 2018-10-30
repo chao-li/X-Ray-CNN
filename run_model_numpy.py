@@ -12,18 +12,18 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'MicroVGGNet_ADAM'
+model_name = 'MicroVGGNet_ADAM_dropout_l1reg001'
 # data location
-data_folder = '/Users/clidev/Desktop/Capstone_Project/pnumonia/X-Ray-CNN/image_as_numpy/'
+data_folder = '/home/ubuntu/ML_models/image_as_numpy/'
 # output path
-output_path = '/Users/clidev/Desktop/Capstone_Project/pnumonia/X-Ray-CNN/outputs'
-monitor_path = '/Users/clidev/Desktop/Capstone_Project/pnumonia/X-Ray-CNN/monitor'
+output_path = '/home/ubuntu/ML_models/outputs'
+monitor_path = '/home/ubuntu/ML_models/monitor'
 
 
 # load the model
 #model = ShallowNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
 #model = BaselineNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
-model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 5000)
+model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-4),
 	metrics = ['accuracy'])
 

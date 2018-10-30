@@ -7,6 +7,7 @@ from keras.layers.core import Activation
 from keras.layers.core import Flatten
 from keras.layers.core import Dropout
 from keras.layers.core import Dense
+from keras import regularizers
 from keras import backend as K
 
 class MicroVGGNet:
@@ -35,15 +36,15 @@ class MicroVGGNet:
 
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
-		#model.add(Dropout(0.25))
+		model.add(Dropout(0.25))
 
 
 		# first (and only) set of FC => RELU layers
 		model.add(Flatten())
-		model.add(Dense(dense_size))
-		model.add(Activation("relu"))
+		model.add(Dense(dense_size, activation = 'relu', 
+kernel_regularizer = regularizers.l1(0.001)))
 		#model.add(BatchNormalization())
-		#model.add(Dropout(0.5))
+		model.add(Dropout(0.5))
 
 		# softmax classifier
 		model.add(Dense(output))
