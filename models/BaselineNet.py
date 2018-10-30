@@ -35,16 +35,15 @@ class BaselineNet:
 
                 # second CONV => RELU => CONV => RELU => POOL layer set
                 model.add(Conv2D(128, (3, 3), activation = 'relu', padding="same"))
-                model.add(MaxPooling2D(pool_size=(2,2)))
-
-                model.add(Conv2D(128, (3, 3), activation = 'relu', padding="same"))
+                model.add(MaxPooling2D(pool_size=(2, 2)))
+                model.add(Conv2D(256, (3, 3), activation = 'relu', padding="same"))
                 model.add(MaxPooling2D(pool_size=(2, 2)))
 
                 # first (and only) set of FC => RELU layers
                 model.add(Flatten())
 
                 model.add(Dense(dense_size, activation = 'relu'))
-                #model.add(Dropout(0.5))
+                model.add(Dropout(0.5))
 
                 # first (and only) set of FC => RELU layers
                 model.add(Dense(output, activation = 'sigmoid'))

@@ -12,7 +12,7 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_ADAM'
+model_name = 'BaselineNet+_ADAM'
 # data location
 data_folder = '/home/ubuntu/ML_models/image_as_numpy/'
 # output path
