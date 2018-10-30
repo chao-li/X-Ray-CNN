@@ -9,7 +9,7 @@ from keras import backend as K
 
 class ShallowNet:
 	@staticmethod
-	def build(width, height, depth, classes, dense_size):
+	def build(width, height, depth, output, dense_size):
 		# initialize the model along with the input shape to be
 		# "channels last"
 		model = Sequential()
@@ -33,7 +33,7 @@ class ShallowNet:
 
 		model.add(Dense(dense_size, activation = 'relu'))
 
-		model.add(Dense(classes))
+		model.add(Dense(output))
 		
 	
 		model.add(Activation('sigmoid'))

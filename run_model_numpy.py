@@ -2,6 +2,7 @@ from keras import optimizers
 from keras.callbacks import ModelCheckpoint
 from models import BaselineNet
 from models import ShallowNet
+from models import MicroVGGNet
 import numpy as np
 import argparse
 
@@ -11,7 +12,7 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'ShallowNet_ADAM'
+model_name = 'MicroVGGNet_ADAM'
 # data location
 data_folder = '/Users/clidev/Desktop/Capstone_Project/pnumonia/X-Ray-CNN/image_as_numpy/'
 # output path
@@ -20,8 +21,9 @@ monitor_path = '/Users/clidev/Desktop/Capstone_Project/pnumonia/X-Ray-CNN/monito
 
 
 # load the model
-model = ShallowNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
+#model = ShallowNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
 #model = BaselineNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
+model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 5000)
 model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-4),
 	metrics = ['accuracy'])
 

@@ -11,7 +11,7 @@ from keras import backend as K
 
 class BaselineNet:
         @staticmethod
-        def build(width, height, depth, classes, dense_size):
+        def build(width, height, depth, output, dense_size):
                 # initialize the model along with the input shape to be
                 # "channels last" and the channels dimension itself
                 model = Sequential()
@@ -47,7 +47,7 @@ class BaselineNet:
                 #model.add(Dropout(0.5))
 
                 # first (and only) set of FC => RELU layers
-                model.add(Dense(classes, activation = 'sigmoid'))
+                model.add(Dense(output, activation = 'sigmoid'))
 
                 
 
