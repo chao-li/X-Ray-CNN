@@ -12,7 +12,7 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'BaselineNet+_ADAM'
+model_name = 'BaselineNet+_ADAM-lrtweak'
 # data location
 data_folder = '/home/ubuntu/ML_models/image_as_numpy/'
 # output path
@@ -24,7 +24,7 @@ monitor_path = '/home/ubuntu/ML_models/monitor'
 #model = ShallowNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
 model = BaselineNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 #model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
-model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-4),
+model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-5),
 	metrics = ['accuracy'])
 
 model.summary()
