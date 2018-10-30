@@ -12,7 +12,7 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'MicroVGGNet_ADAM_dropout_l1reg001'
+model_name = 'BaselineNet_ADAM'
 # data location
 data_folder = '/home/ubuntu/ML_models/image_as_numpy/'
 # output path
@@ -22,8 +22,8 @@ monitor_path = '/home/ubuntu/ML_models/monitor'
 
 # load the model
 #model = ShallowNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
-#model = BaselineNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
-model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+model = BaselineNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+#model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-4),
 	metrics = ['accuracy'])
 
@@ -71,7 +71,7 @@ callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint]
 # TRAINING THE MODEL
 history = model.fit_generator(train_generator,
                                   steps_per_epoch = len(X_train)/32, # 264 batches per epoch\n",
-                                  epochs = 30,
+                                  epochs = 50,
                                   validation_data = validation_generator,
                                   validation_steps = len(X_validate)/32,
                                   callbacks = callbacks)
