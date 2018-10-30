@@ -11,7 +11,7 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'ShallowNet_RMSprop'
+model_name = 'ShallowNet_ADAM'
 # data location
 data_folder = '/Users/clidev/Desktop/Capstone_Project/pnumonia/X-Ray-CNN/image_as_numpy/'
 # output path
@@ -22,7 +22,7 @@ monitor_path = '/Users/clidev/Desktop/Capstone_Project/pnumonia/X-Ray-CNN/monito
 # load the model
 model = ShallowNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
 #model = BaselineNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
-model.compile(loss = 'binary_crossentropy', optimizer = optimizers.RMSprop(lr = 1e-4),
+model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-4),
 	metrics = ['accuracy'])
 
 model.summary()

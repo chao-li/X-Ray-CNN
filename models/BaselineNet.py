@@ -44,15 +44,12 @@ class BaselineNet:
                 model.add(Flatten())
 
                 model.add(Dense(dense_size, activation = 'relu'))
-                model.add(Dropout(0.5))
+                #model.add(Dropout(0.5))
 
                 # first (and only) set of FC => RELU layers
-                model.add(Dense(classes))
+                model.add(Dense(classes, activation = 'sigmoid'))
 
-                if classes < 2:
-                        model.add(Activation('sigmoid'))
-                else:
-                        model.add(Activation('softmax'))
+                
 
                 # return the constructed network architecture
                 return model
