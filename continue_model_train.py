@@ -13,8 +13,8 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'Multiphase_E60'
-epoch_number = 30
+model_name = 'BaselineNet_Adam_batch64_E40_cont'
+epoch_number = 10
 # data location
 data_folder = '/home/ubuntu/image_as_numpy/'
 # output path
@@ -22,7 +22,7 @@ output_path = '/home/ubuntu/X-Ray-CNN/outputs'
 monitor_path = '/home/ubuntu/X-Ray-CNN/monitor'
 
 # previosu model name
-prev_model = 'Multiphase_E30|_final_result.hdf5'
+prev_model = 'BaselineNet_Adam_batch64_E30|_final_result.hdf5'
 
 # load the model
 model = load_model('/home/ubuntu/X-Ray-CNN/outputs/' + prev_model)
@@ -59,8 +59,8 @@ validate_datagen = ImageDataGenerator(rescale=1./255)
 train_datagen.fit(X_train)
 validate_datagen.fit(X_validate)
 
-train_generator = train_datagen.flow(X_train, y_train, batch_size = 32)
-validation_generator = validate_datagen.flow(X_validate, y_validate, batch_size = 32)
+train_generator = train_datagen.flow(X_train, y_train, batch_size = 64)
+validation_generator = validate_datagen.flow(X_validate, y_validate, batch_size = 64)
 
 
 ## SAVING OUTPUTS AND LOGS
@@ -76,14 +76,14 @@ callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint]
 
 # TRAINING THE MODEL
 history = model.fit_generator(train_generator,
-                                  steps_per_epoch = len(X_train)/32, # 264 batches per epoch\n",
+                                  steps_per_epoch = len(X_train)/64, # 264 batches per epoch\n",
                                   epochs = epoch_number,
                                   validation_data = validation_generator,
-                                  validation_steps = len(X_validate)/32,
+                                  validation_steps = len(X_validate)/64,
                                   callbacks = callbacks)
 
 model.save(output_path + '/' + model_name +  '|_final_result.hdf5')
 
-print(model.evaluate(X_train, y_train, batch_size = 32))
-print(model.evaluate(X_validate, y_validate, batch_size = 32))
-print(model.evaluate(X_test, y_test, batch_size = 32))
+print(model.evaluate(X_train, y_train, batch_size = 64))
+print(model.evaluate(X_validate, y_validate, batch_size = 64))
+print(model.evaluate(X_test, y_test, batch_size = 64))
