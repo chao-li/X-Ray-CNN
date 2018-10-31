@@ -12,7 +12,7 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_ADAM_Epoch150'
+model_name = 'BaselineNet_ADAM_Epoch30'
 # data location
 data_folder = '/home/ubuntu/image_as_numpy/'
 # output path
@@ -71,7 +71,7 @@ callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint]
 # TRAINING THE MODEL
 history = model.fit_generator(train_generator,
                                   steps_per_epoch = len(X_train)/32, # 264 batches per epoch\n",
-                                  epochs = 150,
+                                  epochs = 30,
                                   validation_data = validation_generator,
                                   validation_steps = len(X_validate)/32,
                                   callbacks = callbacks)
