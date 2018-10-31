@@ -3,6 +3,8 @@ from keras.callbacks import ModelCheckpoint
 from models import BaselineNet
 from models import ShallowNet
 from models import MicroVGGNet
+from models import BaselineNet_NoPad
+from models import BaselineNet_LeakyRelu
 import numpy as np
 import argparse
 
@@ -12,7 +14,7 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_Adam_batch32_E30'
+model_name = 'BaselineNet_LeakyRelu_Adam_batch64_E30'
 # data location
 data_folder = '/home/ubuntu/image_as_numpy/'
 # output path
@@ -21,8 +23,10 @@ monitor_path = '/home/ubuntu/X-Ray-CNN/monitor'
 
 
 # load the model
-#model = ShallowNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
-model = BaselineNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+#model = ShallowNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+#model = BaselineNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+#model = BaselineNet_NoPad.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+model = BaselineNet_LeakyRelu.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 #model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-4),
 	metrics = ['binary_accuracy'])
@@ -58,8 +62,8 @@ validate_datagen = ImageDataGenerator(rescale=1./255)
 train_datagen.fit(X_train)
 validate_datagen.fit(X_validate)
 
-train_generator = train_datagen.flow(X_train, y_train, batch_size = 32)
-validation_generator = validate_datagen.flow(X_validate, y_validate, batch_size = 32)
+train_generator = train_datagen.flow(X_train, y_train, batch_size = 64)
+validation_generator = validate_datagen.flow(X_validate, y_validate, batch_size = 64)
 
 
 ## SAVING OUTPUTS AND LOGS
@@ -75,15 +79,15 @@ callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint]
 
 # TRAINING THE MODEL
 history = model.fit_generator(train_generator,
-                                  steps_per_epoch = len(X_train)/32, # 264 batches per epoch\n",
+                                  steps_per_epoch = len(X_train)/64, # 264 batches per epoch\n",
                                   epochs = 30,
                                   validation_data = validation_generator,
-                                  validation_steps = len(X_validate)/32,
+                                  validation_steps = len(X_validate)/64,
                                   callbacks = callbacks)
 
 model.save(output_path + '/' + model_name +  '|_final_result.hdf5')
 
-print(model.evaluate(X_train, y_train, batch_size = 32))
-print(model.evaluate(X_validate, y_validate, batch_size = 32))
-print(model.evaluate(X_test, y_test, batch_size = 32))
+print(model.evaluate(X_train, y_train, batch_size = 64))
+print(model.evaluate(X_validate, y_validate, batch_size = 64))
+print(model.evaluate(X_test, y_test, batch_size = 64))
 

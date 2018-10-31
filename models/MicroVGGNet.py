@@ -41,8 +41,7 @@ class MicroVGGNet:
 
 		# first (and only) set of FC => RELU layers
 		model.add(Flatten())
-		model.add(Dense(dense_size, activation = 'relu', 
-kernel_regularizer = regularizers.l1(0.001)))
+		model.add(Dense(dense_size, activation = 'relu'))
 		#model.add(BatchNormalization())
 		model.add(Dropout(0.5))
 
