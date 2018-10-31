@@ -3,6 +3,7 @@ from keras.callbacks import ModelCheckpoint
 from models import BaselineNet
 from models import ShallowNet
 from models import MicroVGGNet
+from keras.models import load_model
 import numpy as np
 import argparse
 
@@ -12,20 +13,20 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_Adam_batch32_E30'
+model_name = 'Multiphase_E60'
+epoch_number = 30
 # data location
 data_folder = '/home/ubuntu/image_as_numpy/'
 # output path
 output_path = '/home/ubuntu/X-Ray-CNN/outputs'
 monitor_path = '/home/ubuntu/X-Ray-CNN/monitor'
 
+# previosu model name
+prev_model = 'Multiphase_E30|_final_result.hdf5'
 
 # load the model
-#model = ShallowNet.build(width = 128, height = 128, depth = 1, classes = 1, dense_size = 2000)
-model = BaselineNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
-#model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
-model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-4),
-	metrics = ['binary_accuracy'])
+model = load_model('/home/ubuntu/X-Ray-CNN/outputs/' + prev_model)
+
 
 model.summary()
 
@@ -70,13 +71,13 @@ jsonPath = os.path.sep.join([monitor_path, model_name + '.json'])
 # create checkpoint
 #fname = os.path.sep.join([output_path, 'weights-{epoch:03d}-{val_loss:.4f}.hdf5'])
 #checkpoint = ModelCheckpoint(fname, monitor = 'val_acc',mode = 'max', save_best_only = True, verbose = 1)
-checkpoint = ModelCheckpoint(output_path + '/' +  model_name + '|_best_weights.hdf5', monitor = 'val_loss',mode = 'min', save_best_only = True, verbose = 1)
+checkpoint = ModelCheckpoint(output_path + '/' +  model_name + '|_best_weights.hdf5', monitor = 'val_acc',mode = 'max', save_best_only = True, verbose = 1)
 callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint]
 
 # TRAINING THE MODEL
 history = model.fit_generator(train_generator,
                                   steps_per_epoch = len(X_train)/32, # 264 batches per epoch\n",
-                                  epochs = 30,
+                                  epochs = epoch_number,
                                   validation_data = validation_generator,
                                   validation_steps = len(X_validate)/32,
                                   callbacks = callbacks)
@@ -86,4 +87,3 @@ model.save(output_path + '/' + model_name +  '|_final_result.hdf5')
 print(model.evaluate(X_train, y_train, batch_size = 32))
 print(model.evaluate(X_validate, y_validate, batch_size = 32))
 print(model.evaluate(X_test, y_test, batch_size = 32))
-
