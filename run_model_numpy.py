@@ -14,10 +14,10 @@ import os
 #FILE LOCATIONS
 model_name = 'BaselineNet_ADAM_Epoch150'
 # data location
-data_folder = '/home/ubuntu/ML_models/image_as_numpy/'
+data_folder = '/home/ubuntu/image_as_numpy/'
 # output path
-output_path = '/home/ubuntu/ML_models/outputs'
-monitor_path = '/home/ubuntu/ML_models/monitor'
+output_path = '/home/ubuntu/X-Ray-CNN/outputs'
+monitor_path = '/home/ubuntu/X-Ray-CNN/monitor'
 
 
 # load the model
