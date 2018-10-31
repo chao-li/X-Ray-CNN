@@ -5,7 +5,7 @@ from keras.models import load_model
 ## load the models
 model_path = '/home/ubuntu/X-Ray-CNN/outputs/BaselineNet_ADAM_Epoch150|_best_weights.hdf5'
 
-model = load_model
+model = load_model(model_path)
 
 ## load train, validate and test data
 folder_path = '/home/ubuntu/image_as_numpy/'
