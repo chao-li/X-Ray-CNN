@@ -14,18 +14,21 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_Adam_batch64_E150'
+model_name = 'BaselineNet_NoPad_Adam_batch64_E150'
 # data location
 data_folder = '/home/ubuntu/image_as_numpy/'
 # output path
 output_path = '/home/ubuntu/X-Ray-CNN/outputs'
 monitor_path = '/home/ubuntu/X-Ray-CNN/monitor'
 
+## epochs
+epoch_number = 150
+
 
 # load the model
 #model = ShallowNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
-model = BaselineNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
-#model = BaselineNet_NoPad.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+#model = BaselineNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+model = BaselineNet_NoPad.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 #model = BaselineNet_LeakyRelu.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 #model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-4),
@@ -74,13 +77,13 @@ jsonPath = os.path.sep.join([monitor_path, model_name + '.json'])
 # create checkpoint
 #fname = os.path.sep.join([output_path, 'weights-{epoch:03d}-{val_loss:.4f}.hdf5'])
 #checkpoint = ModelCheckpoint(fname, monitor = 'val_acc',mode = 'max', save_best_only = True, verbose = 1)
-checkpoint = ModelCheckpoint(output_path + '/' +  model_name + '|_best_weights.hdf5', monitor = 'val_loss',mode = 'min', save_best_only = True, verbose = 1)
+checkpoint = ModelCheckpoint(output_path + '/' +  model_name + '|_best_weights.hdf5', monitor = 'val_binary_accuracy',mode = 'max', save_best_only = True, verbose = 1)
 callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint]
 
 # TRAINING THE MODEL
 history = model.fit_generator(train_generator,
                                   steps_per_epoch = len(X_train)/64, # 264 batches per epoch\n",
-                                  epochs = 150,
+                                  epochs = epoch_number,
                                   validation_data = validation_generator,
                                   validation_steps = len(X_validate)/64,
                                   callbacks = callbacks)
@@ -103,3 +106,10 @@ test_generator = test_datagen.flow(X_test, y_test, batch_size = 64)
 train_evaluate = model.evaluate_generator(train_generator, steps = len(X_train)/64)
 validate_evaluate = model.evaluate_generator(validate_generator, steps = len(X_validate)/64)
 test_evaluate = model.evaluate_generator(test_generator, steps = len(X_test)/64)
+
+print('train_evaluate:', train_evaluate)
+print('validate_evaluate:', validate_evaluate)
+print('test_evaluate:', test_evaluate)
+
+
+
