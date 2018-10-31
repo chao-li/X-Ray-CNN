@@ -13,7 +13,7 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_Adam_batch64_E40_cont'
+model_name = 'BaselineNet_Adam_batch64_E60_cont'
 epoch_number = 10
 # data location
 data_folder = '/home/ubuntu/image_as_numpy/'
@@ -22,7 +22,7 @@ output_path = '/home/ubuntu/X-Ray-CNN/outputs'
 monitor_path = '/home/ubuntu/X-Ray-CNN/monitor'
 
 # previosu model name
-prev_model = 'BaselineNet_Adam_batch64_E30|_final_result.hdf5'
+prev_model = 'BaselineNet_Adam_batch64_E50_cont|_final_result.hdf5'
 
 # load the model
 model = load_model('/home/ubuntu/X-Ray-CNN/outputs/' + prev_model)
