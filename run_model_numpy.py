@@ -39,6 +39,9 @@ X_validate = np.load(data_folder + 'X_validate.npy')
 y_train = np.load(data_folder + 'y_train.npy')
 y_validate = np.load(data_folder + 'y_validate.npy')
 
+X_test = np.load(data_folder + 'X_test.npy')
+y_test = np.load(data_folder + 'y_test.npy')
+
 
 train_datagen = ImageDataGenerator(
         rescale=1./255,
@@ -77,3 +80,7 @@ history = model.fit_generator(train_generator,
                                   callbacks = callbacks)
 
 model.save(output_path + '/' + model_name +  '|_final_result.hdf5')
+
+print(model.evaluate(X_train, y_train, batch_size = 32))
+print(model.evaluate(X_validate, y_validate, batch_size = 32))
+print(model.evaluate(X_test, y_test, batch_size = 32))
