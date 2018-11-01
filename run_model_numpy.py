@@ -5,6 +5,7 @@ from models import ShallowNet
 from models import MicroVGGNet
 from models import BaselineNet_NoPad
 from models import BaselineNet_LeakyRelu
+from models import AveragePoolingNet
 import numpy as np
 import argparse
 
@@ -14,7 +15,7 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_NoPad_Adam_batch64_E150'
+model_name = 'AveragePoolingNet_Adam_batch64_E150'
 # data location
 data_folder = '/home/ubuntu/image_as_numpy/'
 # output path
@@ -28,7 +29,8 @@ epoch_number = 150
 # load the model
 #model = ShallowNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 #model = BaselineNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
-model = BaselineNet_NoPad.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+#model = BaselineNet_NoPad.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+model = AveragePoolingNet.build(width = 128, height = 128, depth = 1, output = 1)
 #model = BaselineNet_LeakyRelu.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 #model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-4),

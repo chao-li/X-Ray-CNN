@@ -29,20 +29,19 @@ class AveragePoolingNet:
                 model.add(Conv2D(32, (3, 3), activation = 'relu',
                         input_shape=inputShape))
 
+
                 model.add(Conv2D(64, (3, 3), activation = 'relu'))
 
 
                 # second CONV => RELU => CONV => RELU => POOL layer set
-                model.add(Conv2D(128, (3, 3), activation = 'relu'))
 
-                model.add(Conv2D(256, (3, 3), activation = 'relu'))
+                model.add(Conv2D(128, (3, 3), activation = 'relu'))
         
+                model.add(Conv2D(256, (3, 3), activation = 'relu'))
+                model.add(AveragePooling2D(pool_size=(3, 3)))
 
                 # first (and only) set of FC => RELU layers
                 model.add(Flatten())
-
-                model.add(AveragePooling2D(pool_size=(2, 2)))
-                
                 model.add(Dropout(0.5))
 
                 # first (and only) set of FC => RELU layers
