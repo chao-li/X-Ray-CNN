@@ -13,16 +13,16 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_Adam_batch64_E60_cont'
-epoch_number = 10
+model_name = 'BaselineNet_NoPad_Adam_batch64_64pix_3dense_E600'
+epoch_number = 300
 # data location
-data_folder = '/home/ubuntu/image_as_numpy/'
+data_folder = '/home/ubuntu/image64/'
 # output path
 output_path = '/home/ubuntu/X-Ray-CNN/outputs'
 monitor_path = '/home/ubuntu/X-Ray-CNN/monitor'
 
 # previosu model name
-prev_model = 'BaselineNet_Adam_batch64_E50_cont|_final_result.hdf5'
+prev_model = 'BaselineNet_NoPad_Adam_batch64_64pix_3dense_E300|_final_result.hdf5'
 
 # load the model
 model = load_model('/home/ubuntu/X-Ray-CNN/outputs/' + prev_model)
@@ -71,7 +71,7 @@ jsonPath = os.path.sep.join([monitor_path, model_name + '.json'])
 # create checkpoint
 #fname = os.path.sep.join([output_path, 'weights-{epoch:03d}-{val_loss:.4f}.hdf5'])
 #checkpoint = ModelCheckpoint(fname, monitor = 'val_acc',mode = 'max', save_best_only = True, verbose = 1)
-checkpoint = ModelCheckpoint(output_path + '/' +  model_name + '|_best_weights.hdf5', monitor = 'val_acc',mode = 'max', save_best_only = True, verbose = 1)
+checkpoint = ModelCheckpoint(output_path + '/' +  model_name + '|_best_weights.hdf5', monitor = 'val_binary_accuracy',mode = 'max', save_best_only = True, verbose = 1)
 callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint]
 
 # TRAINING THE MODEL
@@ -84,6 +84,24 @@ history = model.fit_generator(train_generator,
 
 model.save(output_path + '/' + model_name +  '|_final_result.hdf5')
 
-print(model.evaluate(X_train, y_train, batch_size = 64))
-print(model.evaluate(X_validate, y_validate, batch_size = 64))
-print(model.evaluate(X_test, y_test, batch_size = 64))
+
+## evaluate final model
+train_datagen = ImageDataGenerator(rescale = 1./255)
+validate_datagen = ImageDataGenerator(rescale = 1./255)
+test_datagen = ImageDataGenerator(rescale = 1./255)
+
+train_datagen.fit(X_train)
+validate_datagen.fit(X_validate)
+test_datagen.fit(X_test)
+
+train_generator = train_datagen.flow(X_train, y_train, batch_size = 64)
+validate_generator = validate_datagen.flow(X_validate, y_validate, batch_size = 64)
+test_generator = test_datagen.flow(X_test, y_test, batch_size = 64)
+
+train_evaluate = model.evaluate_generator(train_generator, steps = len(X_train)/64)
+validate_evaluate = model.evaluate_generator(validate_generator, steps = len(X_validate)/64)
+test_evaluate = model.evaluate_generator(test_generator, steps = len(X_test)/64)
+
+print('train_evaluate:', train_evaluate)
+print('validate_evaluate:', validate_evaluate)
+print('test_evaluate:', test_evaluate)
