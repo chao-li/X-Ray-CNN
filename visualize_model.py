@@ -5,9 +5,10 @@ from models import BaselineNet
 from models import MicroVGGNet
 from models import BaselineNet_NoPad
 from models import BaselineNet_LeakyRelu
+from models import AveragePoolingNet
 
 
-model = BaselineNet_LeakyRelu.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+model = AveragePoolingNet.build(width = 128, height = 128, depth = 1, output = 1)
 model.summary()
 
 # drawing the model
