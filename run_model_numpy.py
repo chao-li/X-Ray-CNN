@@ -6,6 +6,7 @@ from models import MicroVGGNet
 from models import BaselineNet_NoPad
 from models import BaselineNet_LeakyRelu
 from models import AveragePoolingNet
+from keras.callbacks import LearningRateScheduler
 import numpy as np
 import argparse
 
@@ -13,6 +14,15 @@ import matplotlib
 matplotlib.use('Agg')
 from models.callbacks import TrainingMonitor
 import os
+
+def step_decay(epoch):
+      initAlpha = 0.001
+      factor = 0.5
+      dropEvery = 100
+
+      alpha = initAlpha * (factor ** np.floor((1 + epoch) / dropEvery))
+      return float(alpha)
+
 
 #FILE LOCATIONS
 model_name = 'BaselineNet_NoPad_Adam_batch64_64pix_3dense_E1000'
@@ -34,7 +44,7 @@ model = BaselineNet_NoPad.build(width = 64, height = 64, depth = 1, output = 1, 
 #model = AveragePoolingNet.build(width = 128, height = 128, depth = 1, output = 1)
 #model = BaselineNet_LeakyRelu.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 #model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
-model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 1e-5),
+model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 0.001),
 	metrics = ['binary_accuracy'])
 
 model.summary()
@@ -81,7 +91,7 @@ jsonPath = os.path.sep.join([monitor_path, model_name + '.json'])
 #fname = os.path.sep.join([output_path, 'weights-{epoch:03d}-{val_loss:.4f}.hdf5'])
 #checkpoint = ModelCheckpoint(fname, monitor = 'val_acc',mode = 'max', save_best_only = True, verbose = 1)
 checkpoint = ModelCheckpoint(output_path + '/' +  model_name + '|_best_weights.hdf5', monitor = 'val_binary_accuracy',mode = 'max', save_best_only = True, verbose = 1)
-callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint]
+callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint, LearningRateScheduler(step_decay)]
 
 # TRAINING THE MODEL
 history = model.fit_generator(train_generator,
