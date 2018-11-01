@@ -15,9 +15,10 @@ from models.callbacks import TrainingMonitor
 import os
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_NoPad_Adam_batch64_E300'
+model_name = 'BaselineNet_NoPad_Adam_batch64_64pix_3dense_E300'
 # data location
-data_folder = '/home/ubuntu/image_as_numpy/'
+#data_folder = '/home/ubuntu/image_as_numpy/'
+data_folder = '/home/ubuntu/image64/'
 # output path
 output_path = '/home/ubuntu/X-Ray-CNN/outputs'
 monitor_path = '/home/ubuntu/X-Ray-CNN/monitor'
@@ -29,7 +30,7 @@ epoch_number = 300
 # load the model
 #model = ShallowNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 #model = BaselineNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
-model = BaselineNet_NoPad.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
+model = BaselineNet_NoPad.build(width = 64, height = 64, depth = 1, output = 1, dense_size = 500)
 #model = AveragePoolingNet.build(width = 128, height = 128, depth = 1, output = 1)
 #model = BaselineNet_LeakyRelu.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)
 #model = MicroVGGNet.build(width = 128, height = 128, depth = 1, output = 1, dense_size = 2000)

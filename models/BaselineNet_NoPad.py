@@ -44,7 +44,10 @@ class BaselineNet_NoPad:
 
                 model.add(Dense(dense_size, activation = 'relu'))
                 model.add(Dropout(0.5))
-
+                model.add(Dense(dense_size, activation = 'relu'))
+                model.add(Dropout(0.5))
+                model.add(Dense(dense_size, activation = 'relu'))
+                model.add(Dropout(0.5))
                 # first (and only) set of FC => RELU layers
                 model.add(Dense(output, activation = 'sigmoid'))
 
