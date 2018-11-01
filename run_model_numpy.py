@@ -25,7 +25,7 @@ def step_decay(epoch):
 
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_NoPad_Adam_batch64_64pix_3dense_E1000'
+model_name = 'BaselineNet_NoPad_Adam_batch64_64pix_3dense_lr001_E1000'
 # data location
 #data_folder = '/home/ubuntu/image_as_numpy/'
 data_folder = '/home/ubuntu/image64/'
@@ -91,7 +91,7 @@ jsonPath = os.path.sep.join([monitor_path, model_name + '.json'])
 #fname = os.path.sep.join([output_path, 'weights-{epoch:03d}-{val_loss:.4f}.hdf5'])
 #checkpoint = ModelCheckpoint(fname, monitor = 'val_acc',mode = 'max', save_best_only = True, verbose = 1)
 checkpoint = ModelCheckpoint(output_path + '/' +  model_name + '|_best_weights.hdf5', monitor = 'val_binary_accuracy',mode = 'max', save_best_only = True, verbose = 1)
-callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint, LearningRateScheduler(step_decay)]
+callbacks = [TrainingMonitor(figPath, jsonPath=jsonPath), checkpoint]
 
 # TRAINING THE MODEL
 history = model.fit_generator(train_generator,
@@ -123,6 +123,5 @@ test_evaluate = model.evaluate_generator(test_generator, steps = len(X_test)/64)
 print('train_evaluate:', train_evaluate)
 print('validate_evaluate:', validate_evaluate)
 print('test_evaluate:', test_evaluate)
-
 
 
