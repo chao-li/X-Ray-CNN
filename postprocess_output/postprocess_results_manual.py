@@ -4,7 +4,7 @@ from keras.preprocessing.image import ImageDataGenerator
 ## Post processing
 
 ## load the models
-model_path = '/home/ubuntu/X-Ray-CNN/outputs/BaselineNet_Adam_batch64_E150|_best_weights.hdf5'
+model_path = '/home/ubuntu/X-Ray-CNN/outputs/BaselineNet_NoPad_Adam_batch64_E150|_best_weights.hdf5'
 
 model = load_model(model_path)
 
@@ -45,7 +45,7 @@ y_test_proba = model.predict_proba(X_test, batch_size = 64)
 
 
 ## save the evaluation and y_preds and predict proba as numpy arrays
-output_path = '/home/ubuntu/X-Ray-CNN/postprocess_output/BaselineNet_Adam_batch64_E150/'
+output_path = '/home/ubuntu/X-Ray-CNN/postprocess_output/BaselineNet_NoPad_Adam_batch64_E150/'
 np.save(output_path + 'train_evaluate.npy', train_evaluate)
 np.save(output_path + 'validate_evaluate.npy', validate_evaluate)
 np.save(output_path + 'test_evaluate.npy', test_evaluate)
