@@ -7,6 +7,7 @@ from models import BaselineNet_NoPad
 from models import BaselineNet_LeakyRelu
 from models import AveragePoolingNet
 from keras.callbacks import LearningRateScheduler
+from keras.models import load_model
 import numpy as np
 import argparse
 
