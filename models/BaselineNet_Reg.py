@@ -7,10 +7,9 @@ from keras.layers.core import Activation
 from keras.layers.core import Flatten
 from keras.layers.core import Dropout
 from keras.layers.core import Dense
-from keras.layers import LeakyReLU
 from keras import backend as K
 
-class BaselineNet_LeakyRelu:
+class BaselineNet_Reg:
         @staticmethod
         def build(width, height, depth, output, dense_size = 1000):
                 # initialize the model along with the input shape to be
@@ -19,31 +18,26 @@ class BaselineNet_LeakyRelu:
                 inputShape = (height, width, depth)
                 chanDim = -1
 
-        
 
                 # first CONV => RELU => CONV => RELU => POOL layer set
-                model.add(Conv2D(32, (3, 3), padding = "same", input_shape=inputShape))
-                model.add(LeakyReLU(alpha=0.1))
+                model.add(Conv2D(32, (3, 3), activation = 'relu', padding = "same",
+                        input_shape=inputShape))
                 model.add(MaxPooling2D(pool_size=(2,2)))
 
-                model.add(Conv2D(64, (3, 3), padding="same"))
-                model.add(LeakyReLU(alpha=0.1))
+                model.add(Conv2D(64, (3, 3), activation = 'relu', padding="same"))
                 model.add(MaxPooling2D(pool_size=(2, 2)))
 
 
                 # second CONV => RELU => CONV => RELU => POOL layer set
-                model.add(Conv2D(128, (3, 3), padding="same"))
-                model.add(LeakyReLU(alpha=0.1))
+                model.add(Conv2D(128, (3, 3), activation = 'relu', padding="same"))
                 model.add(MaxPooling2D(pool_size=(2, 2)))
-                model.add(Conv2D(128, (3, 3), padding="same"))
-                model.add(LeakyReLU(alpha=0.1))
+                model.add(Conv2D(128, (3, 3), activation = 'relu', padding="same"))
                 model.add(MaxPooling2D(pool_size=(2, 2)))
 
                 # first (and only) set of FC => RELU layers
                 model.add(Flatten())
 
-                model.add(Dense(dense_size))
-                model.add(LeakyReLU(alpha=0.1))
+                model.add(Dense(dense_size, activation = 'relu'))
                 model.add(Dropout(0.5))
 
                 # first (and only) set of FC => RELU layers

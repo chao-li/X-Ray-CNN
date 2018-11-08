@@ -11,18 +11,13 @@ from keras import backend as K
 
 class BaselineNet:
         @staticmethod
-        def build(width, height, depth, output, dense_size):
+        def build(width, height, depth, output, dense_size = 1000):
                 # initialize the model along with the input shape to be
                 # "channels last" and the channels dimension itself
                 model = Sequential()
                 inputShape = (height, width, depth)
                 chanDim = -1
 
-                # if we are using "channels first", update the input shape
-                # and channels dimension
-                if K.image_data_format() == "channels_first":
-                        inputShape = (depth, height, width)
-                        chanDim = 1
 
                 # first CONV => RELU => CONV => RELU => POOL layer set
                 model.add(Conv2D(32, (3, 3), activation = 'relu', padding = "same",
@@ -43,7 +38,7 @@ class BaselineNet:
                 model.add(Flatten())
 
                 model.add(Dense(dense_size, activation = 'relu'))
-                model.add(Dropout(0.5))
+                #model.add(Dropout(0.5))
 
                 # first (and only) set of FC => RELU layers
                 model.add(Dense(output, activation = 'sigmoid'))
