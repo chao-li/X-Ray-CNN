@@ -57,11 +57,11 @@ y_test = np.load(data_folder + 'y_test.npy')
 
 train_datagen = ImageDataGenerator(
         rescale=1./255,
-        rotation_range=45,
-        width_shift_range=0.3,
-        height_shift_range=0.3,
-        shear_range=0.3,
-        zoom_range=0.3,
+        rotation_range=15,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
+        shear_range=0.1,
+        zoom_range=0.1,
         horizontal_flip=True)
 
     
