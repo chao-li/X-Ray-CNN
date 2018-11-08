@@ -21,7 +21,7 @@ import os
 
 
 #FILE LOCATIONS
-model_name = 'BaselineNet_NoPad_Reg_150Epoch_Lr'
+model_name = 'BaselineNet_NoPad_Reg+_150Epoch_Lr'
 # data location
 #data_folder = '/home/ubuntu/image_as_numpy/'
 data_folder = '/home/ubuntu/image64/'
@@ -57,11 +57,11 @@ y_test = np.load(data_folder + 'y_test.npy')
 
 train_datagen = ImageDataGenerator(
         rescale=1./255,
-        rotation_range=15,
-        width_shift_range=0.1,
-        height_shift_range=0.1,
-        shear_range=0.1,
-        zoom_range=0.1,
+        rotation_range=30,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        shear_range=0.2,
+        zoom_range=0.2,
         horizontal_flip=True)
 
     
