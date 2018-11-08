@@ -36,7 +36,7 @@ epoch_number = 150
 # load the model
 model = BaselineNet_NoPad.build(width = 64, height = 64, depth = 1, output = 1)
 
-model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 0.01, decay = 0.01/epoch_number),
+model.compile(loss = 'binary_crossentropy', optimizer = optimizers.Adam(lr = 0.001, decay = 0.01/epoch_number),
 	metrics = ['binary_accuracy'])
 
 model.summary()
@@ -57,11 +57,11 @@ y_test = np.load(data_folder + 'y_test.npy')
 
 train_datagen = ImageDataGenerator(
         rescale=1./255,
-        rotation_range=45,
-        width_shift_range=0.3,
-        height_shift_range=0.3,
-        shear_range=0.3,
-        zoom_range=0.3,
+        rotation_range=15,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
+        shear_range=0.1,
+        zoom_range=0.1,
         horizontal_flip=True)
 
     
